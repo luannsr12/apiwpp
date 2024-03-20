@@ -1,0 +1,16 @@
+{
+    "name": "luannsr12/apiwpp",
+    "description": "Sdk para Api Whatsapp Golang",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Apiwpp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Luan Alves"
+        }
+    ]
+}
