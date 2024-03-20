@@ -2,16 +2,16 @@
 
 Api original: [asternic/wuzapi](https://github.com/asternic/wuzapi/blob/main/API.md)
 
-> Essa biblioteca foi feita para ser usada na versão modificada da api mencionada acima. Ou sejam ela não é compativel com a versão "Api original".
+> Essa biblioteca foi feita para ser usada na versão modificada da api mencionada acima. Ou seja ela não é compativel com a versão "Api original".
 
 > Caso deseje adquirir a API modificada entrar em contato: [luanalvesnsr@gmail.com](mailto:luanalvesnsr@gmail.com)
 
 
 ## Funções disponíveis
 
-- Endio de video
+- Envio de video
 - Envio de audio
-- Enviod de documentos
+- Envio de documentos
 - Envio de imagens
 - Envio de texto
 - Checagem do númro do whatsapp
@@ -74,7 +74,7 @@ Api original: [asternic/wuzapi](https://github.com/asternic/wuzapi/blob/main/API
  
  // Setar o token
  Device::setInstance('NOVO_TOKEN_123');
- $connected = Device::isConnected(); // false ou true
+ $connected = Device::isConnected(); // false or true
 
  if(!$connected){
     // caso n esteja conectado carrega o qrcode
@@ -167,7 +167,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  // Definir configurações da API
  Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
- Api::debug(true); // default true - Para não debugar não chame a função
+ Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
  Device::setInstance('NOVO_TOKEN_123_TESTE');
@@ -187,9 +187,9 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
 ```
 
-## Enviar video com URL do aqruivo.
+## Enviar video com URL do arquivo.
 
-> É importante informar, que apenas videos no formato .mp4 e 3gpp são aceitos.
+> É importante informar, que apenas videos no formato .mp4 e .3gpp são aceitos.
 
 ```php
 <?php 
@@ -203,7 +203,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  // Definir configurações da API
  Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
- Api::debug(true); // default true - Para não debugar não chame a função
+ Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
  Device::setInstance('NOVO_TOKEN_123_TESTE');
@@ -226,7 +226,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
 
 
-## Enviar audio com URL do aqruivo.
+## Enviar audio com URL do arquivo.
 
 > É importante informar, que apenas áudios no formato .ogg são aceitos.
 
@@ -242,7 +242,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  // Definir configurações da API
  Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
- Api::debug(true); // default true - Para não debugar não chame a função
+ Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
  Device::setInstance('NOVO_TOKEN_123_TESTE');
@@ -263,7 +263,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
 ```
 
-## Enviar imagem com URL do aqruivo.
+## Enviar imagem com URL do arquivo.
 
 
 ```php
@@ -278,7 +278,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  // Definir configurações da API
  Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
- Api::debug(true); // default true - Para não debugar não chame a função
+ Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
  Device::setInstance('NOVO_TOKEN_123_TESTE');
@@ -300,7 +300,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
 
 
-## Enviar documento com URL do aqruivo.
+## Enviar documento com URL do arquivo.
 
 > Arquivos no formato: zip, xls, pdf, txt, doc, xml, json, ppt, pptx já foram testados e funcionam. 
 
@@ -318,7 +318,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  // Definir configurações da API
  Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
- Api::debug(true); // default true - Para não debugar não chame a função
+ Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
  Device::setInstance('NOVO_TOKEN_123_TESTE');
@@ -339,6 +339,8 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
 ## Checar se um número existe no whatsapp
 
+> Essa função também corrige o número caso o mesmo use ou não o nono digito.
+
 ```php
 
 <?php 
@@ -351,7 +353,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  // Definir configurações da API
  Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
- Api::debug(true); // default true - Para não debugar não chame a função
+ Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá ser usado para verificar o número
  // Pode ser o token admin aqui também
@@ -387,7 +389,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  // Definir configurações da API
  Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
- Api::debug(true); // default true - Para não debugar não chame a função
+ Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá ser usado para verificar o recado
  // Pode ser o token admin aqui também
@@ -404,7 +406,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
 ## Capturar imagem do perfil
 
-> Se a imagem do perfil não pode estar privada.
+> A imagem do perfil não pode estar privada.
 
 > Caso a imagem do perfil esteja apenas para meus contatos, o dispositivo que você passa em "setInstance" deve estar na agenda de contatos do usuário em questão.
 
@@ -421,7 +423,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  // Definir configurações da API
  Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
- Api::debug(true); // default true - Para não debugar não chame a função
+ Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá ser usado para verificar a imagem
  // Pode ser o token admin aqui também
