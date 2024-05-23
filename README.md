@@ -1,4 +1,4 @@
-## Biblioteca para usar Api Whatsapp em Golang
+## Biblioteca para usar Api Whatsapp Evolution e Wuapi
 
 Api Wuapi: [asternic/wuzapi](https://github.com/asternic/wuzapi/blob/main/API.md) <br />
 Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
