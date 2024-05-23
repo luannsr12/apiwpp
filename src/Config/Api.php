@@ -2,7 +2,8 @@
 
 namespace Apiwpp\Config;
 
-use Apiwpp\Api\Device;
+use Apiwpp\Api\Wuapi\Device as Wuapi;
+use Apiwpp\Api\Evolution\Device as Evolution;
 
  class Api {
 
@@ -27,11 +28,28 @@ use Apiwpp\Api\Device;
     public static function getApikey(){
         return self::$api_key;
     }
+
+    public static function runType(string $type){
+        switch ($type) {
+
+            case 'Wuapi':
+                Wuapi::init();
+                break;
+
+            case 'Evolution':
+                Evolution::init();
+                break;
+
+            default:
+                Wuapi::init();
+                break;
+        }
+    }
     
-    public static function setConfigs(string $apikey, string $endpoint){
+    public static function setConfigs(string $apikey, string $endpoint, string $type_api = 'Wuapi'){
         self::setApikey($apikey);
         self::setEndpoint($endpoint);
-        Device::init();
+        self::runType($type_api);
     }
 
     public static function debug(bool $isDebug = true){

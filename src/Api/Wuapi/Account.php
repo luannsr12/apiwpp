@@ -1,8 +1,8 @@
 <?php
 
-namespace Apiwpp\Api;
+namespace Apiwpp\Api\Wuapi;
 
-use Apiwpp\Api\Device;
+use Apiwpp\Api\Evolution\Device;
 use Apiwpp\Error\ExceptionError;
 
 class Account

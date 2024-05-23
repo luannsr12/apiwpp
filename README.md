@@ -1,11 +1,7 @@
 ## Biblioteca para usar Api Whatsapp em Golang
 
-Api original: [asternic/wuzapi](https://github.com/asternic/wuzapi/blob/main/API.md)
-
-> Essa biblioteca foi feita para ser usada na versão modificada da api mencionada acima. Ou seja ela não é compativel com a versão "Api original".
-
-> Caso deseje adquirir a API modificada entrar em contato: [luanalvesnsr@gmail.com](mailto:luanalvesnsr@gmail.com)
-
+Api Wuapi: [asternic/wuzapi](https://github.com/asternic/wuzapi/blob/main/API.md) <br />
+Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
 
 ## Funções disponíveis
 
@@ -25,6 +21,42 @@ Api original: [asternic/wuzapi](https://github.com/asternic/wuzapi/blob/main/API
  composer require luannsr12/apiwpp
 ```
 
+## Cada API tem sua proprias classes:
+
+#### Para Evolution
+```php
+<?php 
+ 
+ require_once 'vendor/autoload.php';
+
+ use Apiwpp\Config\Api;
+ use Apiwpp\Error\ExceptionError;
+ use Apiwpp\Api\Evolution\Account;
+ use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution\Message;
+  
+ // Definir configurações da API
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+
+```
+
+#### Para Wuapi (obsoleta)
+```php
+<?php 
+ 
+ require_once 'vendor/autoload.php';
+
+ use Apiwpp\Config\Api;
+ use Apiwpp\Error\ExceptionError;
+ use Apiwpp\Api\Wuapi\Account;
+ use Apiwpp\Api\Wuapi\Device;
+ use Apiwpp\Api\Wuapi\Message;
+  
+ // Definir configurações da API
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Wuapi');
+
+```
+
 
 ## Criar instância
 
@@ -35,10 +67,10 @@ Api original: [asternic/wuzapi](https://github.com/asternic/wuzapi/blob/main/API
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Device;
+ use Apiwpp\Api\Evolution\Device;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(); // default true - Para não debugar não chame a função, ou passe false como parametro
  
  // Criar instância
@@ -66,14 +98,14 @@ Api original: [asternic/wuzapi](https://github.com/asternic/wuzapi/blob/main/API
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Device;
+ use Apiwpp\Api\Evolution\Device;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(); // default true - Para não debugar não chame a função, ou passe false como parametro
  
  // Setar o token
- Device::setInstance('NOVO_TOKEN_123');
+ Device::setInstance('NOVO_TOKEN_123', 'NOME_INSTANCIA');
  $connected = Device::isConnected(); // false or true
 
  if(!$connected){
@@ -113,15 +145,16 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Device;
+ use Apiwpp\Api\Evolution\Device;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(); // default true - Para não debugar não chame a função, ou passe false como parametro
  
+ // Setar o token
+ Device::setInstance('NOVO_TOKEN_123', 'NOME_INSTANCIA');
+ $setWebhook = Device::setWebhook('http://site.com'); // para Evolution use 'disabled' para desativar o webhook
 
- Device::setInstance('NOVO_TOKEN_123_TESTE');
- $setWebhook = Device::setWebhook('http://site.com');
  
  var_dump($setWebhook); // true or false
  
@@ -138,14 +171,14 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Device;
+ use Apiwpp\Api\Evolution\Device;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(); // default true - Para não debugar não chame a função, ou passe false como parametro
  
-
- Device::setInstance('NOVO_TOKEN_123_TESTE');
+ // Setar o token
+ Device::setInstance('NOVO_TOKEN_123', 'NOME_INSTANCIA');
  $webhook = Device::getWebhook();
  
  var_dump($webhook); // object: ['subscribe' => 'Message', 'webhook' => 'http://site.com' ]
@@ -162,15 +195,15 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Device;
- use Apiwpp\Api\Message;
+ use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution\Message;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
- Device::setInstance('NOVO_TOKEN_123_TESTE');
+ Device::setInstance('NOVO_TOKEN_123', 'NOME_INSTANCIA');
  
  Message::type('text');
  Message::phone('551199999999');
@@ -198,15 +231,15 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Device;
- use Apiwpp\Api\Message;
+ use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution\Message;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
- Device::setInstance('NOVO_TOKEN_123_TESTE');
+ Device::setInstance('NOVO_TOKEN_123', 'NOME_INSTANCIA');
  
  Message::type('video');
  Message::phone('551199999999');
@@ -228,7 +261,8 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
 ## Enviar audio com URL do arquivo.
 
-> É importante informar, que apenas áudios no formato .ogg são aceitos.
+> É importante informar, que usando Wuapi apenas áudios no formato .ogg são aceitos.
+> Para Evolution, .mp3 funciona
 
 ```php
 <?php 
@@ -237,20 +271,19 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Device;
- use Apiwpp\Api\Message;
+ use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution\Message;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
- Device::setInstance('NOVO_TOKEN_123_TESTE');
+ Device::setInstance('NOVO_TOKEN_123', 'NOME_INSTANCIA');
  
  Message::type('audio');
  Message::phone('551199999999');
  Message::fileUrl('http://umsitequalquer.com/arquivos/audio.ogg');
- Message::caption('Um texto anexado ao audio'); // Opcional
 
  if(Message::send()){
     echo 'Mensagem enviada! <br />';
@@ -273,15 +306,15 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Device;
- use Apiwpp\Api\Message;
+ use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution\Message;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
- Device::setInstance('NOVO_TOKEN_123_TESTE');
+ Device::setInstance('NOVO_TOKEN_123', 'NOME_INSTANCIA');
  
  Message::type('image');
  Message::phone('551199999999');
@@ -313,19 +346,20 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Device;
- use Apiwpp\Api\Message;
+ use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution\Message;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
- Device::setInstance('NOVO_TOKEN_123_TESTE');
+ Device::setInstance('NOVO_TOKEN_123', 'NOME_INSTANCIA');
  
  Message::type('document');
  Message::phone('551199999999');
  Message::fileUrl('http://umsitequalquer.com/arquivos/arquivo.pdf');
+ Message::caption('Um texto anexado a imagem'); // Opcional
 
  if(Message::send()){
     echo 'Mensagem enviada! <br />';
@@ -348,16 +382,16 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
  require_once 'vendor/autoload.php';
 
  use Apiwpp\Config\Api;
- use Apiwpp\Api\Device;
- use Apiwpp\Api\Account;
+ use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution\Account;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá ser usado para verificar o número
  // Pode ser o token admin aqui também
- Device::setInstance('NOVO_TOKEN_123_TESTE');
+ Device::setInstance('NOVO_TOKEN_123_TESTE', 'NOME_INSTANCIA');
  
  Account::checkPhone('551199999999');
  $isWhatsapp = Account::$isWhatsapp;
@@ -384,16 +418,16 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
  require_once 'vendor/autoload.php';
 
  use Apiwpp\Config\Api;
- use Apiwpp\Api\Device;
- use Apiwpp\Api\Account;
+ use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution\Account;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
- // Define qual instancia irá ser usado para verificar o recado
+ // Define qual instancia irá ser usado para verificar o número
  // Pode ser o token admin aqui também
- Device::setInstance('NOVO_TOKEN_123_TESTE');
+ Device::setInstance('NOVO_TOKEN_123_TESTE', 'NOME_INSTANCIA');
  
  Account::detailsAccount('551199999999');
 
@@ -418,16 +452,16 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
  require_once 'vendor/autoload.php';
 
  use Apiwpp\Config\Api;
- use Apiwpp\Api\Device;
- use Apiwpp\Api\Account;
+ use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution\Account;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
- // Define qual instancia irá ser usado para verificar a imagem
+ // Define qual instancia irá ser usado para verificar o número
  // Pode ser o token admin aqui também
- Device::setInstance('NOVO_TOKEN_123_TESTE');
+ Device::setInstance('NOVO_TOKEN_123_TESTE', 'NOME_INSTANCIA');
 
  $profileImg = Account::getImageProfile('5511999999999');
 

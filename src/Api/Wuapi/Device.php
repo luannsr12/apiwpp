@@ -1,6 +1,6 @@
 <?php
 
-namespace Apiwpp\Api;
+namespace Apiwpp\Api\Wuapi;
 
 use Apiwpp\Config\Api;
 use Apiwpp\Error\ExceptionError;
