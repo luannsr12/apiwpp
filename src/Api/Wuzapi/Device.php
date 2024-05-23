@@ -1,6 +1,6 @@
 <?php
 
-namespace Apiwpp\Api\Wuapi;
+namespace Apiwpp\Api\Wuzapi;
 
 use Apiwpp\Config\Api;
 use Apiwpp\Error\ExceptionError;
@@ -23,7 +23,7 @@ class Device
    {
       $endpoint = Api::getEndpoint();
       if ($endpoint == NULL || $endpoint == "") {
-         ExceptionError::setError(404, json_encode(['type' => 'Credentials', 'class' => 'Api\Device', 'method' => 'init', 'message' => 'API endpoint not defined']));
+         ExceptionError::setError(404, json_encode(['type' => 'Credentials', 'class' => 'Api\Wuzapi\Device', 'method' => 'init', 'message' => 'API endpoint not defined']));
       } else {
          self::$endpoint = $endpoint;
       }
@@ -31,7 +31,7 @@ class Device
       $apikey = Api::getApikey();
 
       if ($apikey == NULL || $apikey == "") {
-         ExceptionError::setError(404, json_encode(['type' => 'Credentials', 'class' => 'Api\Device', 'method' => 'init', 'message' => 'ApiKey not defined']));
+         ExceptionError::setError(404, json_encode(['type' => 'Credentials', 'class' => 'Api\Wuzapi\Device', 'method' => 'init', 'message' => 'ApiKey not defined']));
       } else {
          self::$apikey = $apikey;
       }
@@ -63,7 +63,7 @@ class Device
 
          if ($token == NULL) {
             $message = $isApikey ? "Invalid apikey" : "Invalid instance";
-            ExceptionError::setError(403, json_encode(['type' => 'Credentials', 'class' => 'Api\Device', 'method' => 'auth', 'message' => $message]));
+            ExceptionError::setError(403, json_encode(['type' => 'Credentials', 'class' => 'Api\Wuzapi\Device', 'method' => 'auth', 'message' => $message]));
          }
 
          if (ExceptionError::$error) {
@@ -114,7 +114,7 @@ class Device
             }
 
             if ($httpCode != 200) {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'auth', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'auth', 'message' => $response]));
                return false;
             }
 
@@ -127,12 +127,12 @@ class Device
             return true;
 
          } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'auth', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'auth', 'message' => $e->getMessage()]));
             return false;
          }
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'auth', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'auth', 'message' => $e->getMessage()]));
          return false;
       }
 
@@ -172,7 +172,7 @@ class Device
          curl_close($curl);
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'start', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'start', 'message' => $e->getMessage()]));
       }
 
    }
@@ -187,7 +187,7 @@ class Device
 
       try {
          if ($name_device == '' || $name_device == '') {
-            ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'create', 'message' => 'Token device and Name device is required']));
+            ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'create', 'message' => 'Token device and Name device is required']));
          }
 
          if (ExceptionError::$error) {
@@ -221,12 +221,12 @@ class Device
          try {
 
             if ($httpCode != 200 && $httpCode != 201) {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'create', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'create', 'message' => $response]));
                return false;
             }
 
             if (!json_decode($response)) {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'create', 'message' => $response]));
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'create', 'message' => $response]));
                return false;
             }
 
@@ -239,29 +239,29 @@ class Device
                      if ($json->data->name != "") {
                         return true;
                      } else {
-                        ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'create', 'message' => 'Device not created']));
+                        ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'create', 'message' => 'Device not created']));
                         return false;
                      }
                   } else {
-                     ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'create', 'message' => 'Device not created']));
+                     ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'create', 'message' => 'Device not created']));
                      return $json;
                   }
 
                } else {
-                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'create', 'message' => $json->error]));
+                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'create', 'message' => $json->error]));
                   return $json;
                }
             } else {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'create', 'message' => 'Device not created']));
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'create', 'message' => 'Device not created']));
                return $json;
             }
 
          } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'create', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'create', 'message' => $e->getMessage()]));
             return false;
          }
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'create', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'create', 'message' => $e->getMessage()]));
          return false;
       }
 
@@ -303,16 +303,16 @@ class Device
             if (ExceptionError::json_validate($response)) {
                return json_decode($response)->data;
             } else {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'getWebhook', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'getWebhook', 'message' => $response]));
                return NULL;
             }
          } else {
-            ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'getWebhook', 'message' => $response]));
+            ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'getWebhook', 'message' => $response]));
             return NULL;
          }
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'getWebhook', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'getWebhook', 'message' => $e->getMessage()]));
          return NULL;
       }
    }
@@ -326,7 +326,7 @@ class Device
          }
 
          if (filter_var($webhook, FILTER_VALIDATE_URL) === FALSE) {
-            ExceptionError::setError(500, json_encode(['type' => 'Url invalid', 'class' => 'Api\Device', 'method' => 'create', 'message' => $webhook . ' not valid url']));
+            ExceptionError::setError(500, json_encode(['type' => 'Url invalid', 'class' => 'Api\Wuzapi\Device', 'method' => 'create', 'message' => $webhook . ' not valid url']));
             return false;
          }
 
@@ -358,12 +358,12 @@ class Device
          if ($httpCode == 200) {
             return true;
          } else {
-            ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'setWebhook', 'message' => $response]));
+            ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'setWebhook', 'message' => $response]));
             return false;
          }
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'setWebhook', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'setWebhook', 'message' => $e->getMessage()]));
          return false;
       }
 
@@ -412,10 +412,10 @@ class Device
                if ($json->success == false) {
 
                   if (isset ($json->error)) {
-                     ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'loadQr', 'message' => $json->error]));
+                     ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'loadQr', 'message' => $json->error]));
                      return NULL;
                   } else {
-                     ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'loadQr', 'message' => $response]));
+                     ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'loadQr', 'message' => $response]));
                      return NULL;
                   }
 
@@ -425,26 +425,26 @@ class Device
                      self::$qrcode = $json->data->QRCode;
                      return true;
                   } else {
-                     ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'loadQr', 'message' => $response]));
+                     ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'loadQr', 'message' => $response]));
                      return NULL;
                   }
 
                } else {
-                  ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'loadQr', 'message' => $response]));
+                  ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'loadQr', 'message' => $response]));
                   return NULL;
                }
             } else {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'loadQr', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'loadQr', 'message' => $response]));
                return NULL;
             }
 
          } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'loadQr', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'loadQr', 'message' => $e->getMessage()]));
             return NULL;
          }
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'loadQr', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'loadQr', 'message' => $e->getMessage()]));
          return NULL;
       }
 
@@ -485,12 +485,12 @@ class Device
       try {
 
          if ($httpCode != 200) {
-            ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'isConnected', 'message' => $response]));
+            ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'isConnected', 'message' => $response]));
             return false;
          }
 
          if (!json_decode($response)) {
-            ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'isConnected', 'message' => $response]));
+            ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'isConnected', 'message' => $response]));
             return false;
          }
 
@@ -520,7 +520,7 @@ class Device
 
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'isConnected', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'isConnected', 'message' => $e->getMessage()]));
          return false;
       }
 
@@ -561,12 +561,12 @@ class Device
          try {
 
             if ($httpCode != 200) {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'logout', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'logout', 'message' => $response]));
                return NULL;
             }
 
             if (!json_decode($response)) {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'logout', 'message' => $response]));
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'logout', 'message' => $response]));
                return NULL;
             }
 
@@ -577,20 +577,20 @@ class Device
                if ($json->success == true) {
                   return true;
                } else {
-                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'logout', 'message' => $json->error]));
+                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'logout', 'message' => $json->error]));
                   return false;
                }
             } else {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'logout', 'message' => $response]));
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'logout', 'message' => $response]));
             }
 
          } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'logout', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'logout', 'message' => $e->getMessage()]));
             return false;
          }
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'logout', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'logout', 'message' => $e->getMessage()]));
          return false;
       }
    }
@@ -630,12 +630,12 @@ class Device
          try {
 
             if ($httpCode != 200) {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'list', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'list', 'message' => $response]));
                return NULL;
             }
 
             if (!json_decode($response)) {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'list', 'message' => $response]));
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'list', 'message' => $response]));
                return NULL;
             }
 
@@ -647,25 +647,25 @@ class Device
                   if (isset ($json->data)) {
                      return $json->data;
                   } else {
-                     ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'list', 'message' => 'Not devices']));
+                     ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'list', 'message' => 'Not devices']));
                      return $json;
                   }
 
                } else {
-                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'list', 'message' => $json->error]));
+                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'list', 'message' => $json->error]));
                   return $json;
                }
             } else {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Device', 'method' => 'list', 'message' => 'Device not created']));
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Device', 'method' => 'list', 'message' => 'Device not created']));
                return $json;
             }
 
          } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'list', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'list', 'message' => $e->getMessage()]));
             return NULL;
          }
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Device', 'method' => 'list', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Device', 'method' => 'list', 'message' => $e->getMessage()]));
          return NULL;
       }
 

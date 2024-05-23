@@ -1,8 +1,8 @@
 <?php
 
-namespace Apiwpp\Api\Wuapi;
+namespace Apiwpp\Api\Wuzapi;
 
-use Apiwpp\Api\Device;
+use Apiwpp\Api\Wuzapi\Device;
 use Apiwpp\Error\ExceptionError;
 use Apiwpp\Files\Process;
 
@@ -35,7 +35,7 @@ class Message
 
         if(self::$typeSend != "text"){
             if(self::$fileUrl == ""){
-                ExceptionError::setError(401, json_encode(['type' => 'fileUrl', 'class' => 'Api\Message', 'method' => 'send', 'message' =>  'fileUrl is required to type ' . self::$typeSend]));
+                ExceptionError::setError(401, json_encode(['type' => 'fileUrl', 'class' => 'Api\Wuzapi\Message', 'method' => 'send', 'message' =>  'fileUrl is required to type ' . self::$typeSend]));
                 return false;
             }
         }
@@ -53,7 +53,7 @@ class Message
         }else if(self::$typeSend == "video"){
             self::sendVideo();
         }else{
-            ExceptionError::setError(401, json_encode(['type' => 'typeSend', 'class' => 'Api\Message', 'method' => 'send', 'message' =>  'type send not found']));
+            ExceptionError::setError(401, json_encode(['type' => 'typeSend', 'class' => 'Api\Wuzapi\Message', 'method' => 'send', 'message' =>  'type send not found']));
             return false;
         }
 
@@ -67,7 +67,7 @@ class Message
 
     public static function fileUrl(string $url = ""){
         if (filter_var($url, FILTER_VALIDATE_URL) === FALSE) {
-            ExceptionError::setError(500, json_encode(['type' => 'fileUrl', 'class' => 'Api\Message', 'method' => 'fileUrl', 'message' =>  'fileUrl not valid url']));
+            ExceptionError::setError(500, json_encode(['type' => 'fileUrl', 'class' => 'Api\Wuzapi\Message', 'method' => 'fileUrl', 'message' =>  'fileUrl not valid url']));
             return false;
          }
 
@@ -77,7 +77,7 @@ class Message
 
     public static function type(string $type = ""){
         if(!in_array($type, self::$types)){
-            ExceptionError::setError(404, json_encode(['type' => 'TypesMessage', 'class' => 'Api\Message', 'method' => 'type', 'message' => 'Type send not found']));
+            ExceptionError::setError(404, json_encode(['type' => 'TypesMessage', 'class' => 'Api\Wuzapi\Message', 'method' => 'type', 'message' => 'Type send not found']));
         }
 
         self::$typeSend = $type;
@@ -135,7 +135,7 @@ class Message
                 curl_close($curl);
                 
                 if (!ExceptionError::json_validate($response)) {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendDocument', 'message' => $response]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendDocument', 'message' => $response]));
                     return false;
                 }
     
@@ -148,19 +148,19 @@ class Message
                         return true;
     
                     } else {
-                        ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendDocument', 'message' => $json->error]));
+                        ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendDocument', 'message' => $json->error]));
                         return false;
                     }
     
                 } else {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendDocument', 'message' => $response]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendDocument', 'message' => $response]));
                     return false;
                 }
 
             }
 
         } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Message', 'method' => 'sendDocument', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendDocument', 'message' => $e->getMessage()]));
             return false;
         }
     }
@@ -207,7 +207,7 @@ class Message
                 curl_close($curl);
                 
                 if (!ExceptionError::json_validate($response)) {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendVideo', 'message' => $response]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendVideo', 'message' => $response]));
                     return false;
                 }
     
@@ -220,19 +220,19 @@ class Message
                         return true;
     
                     } else {
-                        ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendVideo', 'message' => $json->error]));
+                        ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendVideo', 'message' => $json->error]));
                         return false;
                     }
     
                 } else {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendVideo', 'message' => $response]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendVideo', 'message' => $response]));
                     return false;
                 }
 
             }
 
         } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Message', 'method' => 'sendVideo', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendVideo', 'message' => $e->getMessage()]));
             return false;
         }
     }
@@ -279,7 +279,7 @@ class Message
                 curl_close($curl);
                 
                 if (!ExceptionError::json_validate($response)) {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendImage', 'message' => $response]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendImage', 'message' => $response]));
                     return false;
                 }
     
@@ -292,19 +292,19 @@ class Message
                         return true;
     
                     } else {
-                        ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendImage', 'message' => $json->error]));
+                        ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendImage', 'message' => $json->error]));
                         return false;
                     }
     
                 } else {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendImage', 'message' => $response]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendImage', 'message' => $response]));
                     return false;
                 }
 
             }
 
         } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Message', 'method' => 'sendImage', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendImage', 'message' => $e->getMessage()]));
             return false;
         }
     }
@@ -319,7 +319,7 @@ class Message
             if($base64){
 
                 if(Process::$mimeType != "audio/ogg"){
-                    ExceptionError::setError(500, json_encode(['type' => 'Format', 'class' => 'Api\Message', 'method' => 'sendImage', 'sendAudio' => 'Audio must be ogg']));
+                    ExceptionError::setError(500, json_encode(['type' => 'Format', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendImage', 'sendAudio' => 'Audio must be ogg']));
                     return false;
                 }
 
@@ -354,7 +354,7 @@ class Message
                 curl_close($curl);
                 
                 if (!ExceptionError::json_validate($response)) {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendAudio', 'message' => $response]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendAudio', 'message' => $response]));
                     return false;
                 }
     
@@ -367,19 +367,19 @@ class Message
                         return true;
     
                     } else {
-                        ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendAudio', 'message' => $json->error]));
+                        ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendAudio', 'message' => $json->error]));
                         return false;
                     }
     
                 } else {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendAudio', 'message' => $response]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendAudio', 'message' => $response]));
                     return false;
                 }
 
             }
 
         } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Message', 'method' => 'sendAudio', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendAudio', 'message' => $e->getMessage()]));
             return false;
         }
     }
@@ -422,7 +422,7 @@ class Message
             curl_close($curl);
 
             if (!ExceptionError::json_validate($response)) {
-                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendText', 'message' => $response]));
+                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendText', 'message' => $response]));
                 return false;
             }
 
@@ -435,17 +435,17 @@ class Message
                     return true;
 
                 } else {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendText', 'message' => $json->error]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendText', 'message' => $json->error]));
                     return false;
                 }
 
             } else {
-                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Message', 'method' => 'sendText', 'message' => $response]));
+                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendText', 'message' => $response]));
                 return false;
             }
 
         } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Message', 'method' => 'sendText', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Message', 'method' => 'sendText', 'message' => $e->getMessage()]));
             return false;
         }
     }

@@ -1,6 +1,6 @@
-## Biblioteca para usar Api Whatsapp Evolution e Wuapi
+## Biblioteca para usar Api Whatsapp Evolution e Wuzapi
 
-Api Wuapi: [asternic/wuzapi](https://github.com/asternic/wuzapi/blob/main/API.md) <br />
+Api Wuzapi: [asternic/wuzapi](https://github.com/asternic/wuzapi/blob/main/API.md) <br />
 Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
 
 ## Funções disponíveis
@@ -40,7 +40,7 @@ Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
 
 ```
 
-#### Para Wuapi (obsoleta)
+#### Para Wuzapi (obsoleta)
 ```php
 <?php 
  
@@ -48,12 +48,12 @@ Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Wuapi\Account;
- use Apiwpp\Api\Wuapi\Device;
- use Apiwpp\Api\Wuapi\Message;
+ use Apiwpp\Api\Wuzapi\Account;
+ use Apiwpp\Api\Wuzapi\Device;
+ use Apiwpp\Api\Wuzapi\Message;
   
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Wuapi');
+ Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Wuzapi');
 
 ```
 
@@ -261,7 +261,7 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
 ## Enviar audio com URL do arquivo.
 
-> É importante informar, que usando Wuapi apenas áudios no formato .ogg são aceitos.
+> É importante informar, que usando Wuzapi apenas áudios no formato .ogg são aceitos.
 > Para Evolution, .mp3 funciona
 
 ```php

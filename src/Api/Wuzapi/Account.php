@@ -1,8 +1,8 @@
 <?php
 
-namespace Apiwpp\Api\Wuapi;
+namespace Apiwpp\Api\Wuzapi;
 
-use Apiwpp\Api\Evolution\Device;
+use Apiwpp\Api\Wuzapi\Device;
 use Apiwpp\Error\ExceptionError;
 
 class Account
@@ -46,7 +46,7 @@ class Account
             curl_close($curl);
 
             if (!ExceptionError::json_validate($response)) {
-                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Account', 'method' => 'checkPhone', 'message' => $response]));
+                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Account', 'method' => 'checkPhone', 'message' => $response]));
                 return false;
             }
 
@@ -57,7 +57,7 @@ class Account
                 if ($json->success) {
 
                     if (empty ($json->data->Users)) {
-                        ExceptionError::setError(404, json_encode(['type' => 'notFound', 'class' => 'Api\Account', 'method' => 'checkPhone', 'message' => 'Whatsapp account not found']));
+                        ExceptionError::setError(404, json_encode(['type' => 'notFound', 'class' => 'Api\Wuzapi\Account', 'method' => 'checkPhone', 'message' => 'Whatsapp account not found']));
                         return false;
                     }
 
@@ -69,23 +69,23 @@ class Account
                         return $json->data;
 
                     } else {
-                        ExceptionError::setError(404, json_encode(['type' => 'notFound', 'class' => 'Api\Account', 'method' => 'checkPhone', 'message' => 'Whatsapp account not found']));
+                        ExceptionError::setError(404, json_encode(['type' => 'notFound', 'class' => 'Api\Wuzapi\Account', 'method' => 'checkPhone', 'message' => 'Whatsapp account not found']));
                         return false;
                     }
 
 
                 } else {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Account', 'method' => 'checkPhone', 'message' => $json->error]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Account', 'method' => 'checkPhone', 'message' => $json->error]));
                     return false;
                 }
 
             } else {
-                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Account', 'method' => 'checkPhone', 'message' => $response]));
+                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Account', 'method' => 'checkPhone', 'message' => $response]));
                 return false;
             }
 
         } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Account', 'method' => 'checkPhone', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Account', 'method' => 'checkPhone', 'message' => $e->getMessage()]));
             return false;
         }
     }
@@ -121,7 +121,7 @@ class Account
             curl_close($curl);
 
             if (!ExceptionError::json_validate($response)) {
-                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Account', 'method' => 'getImageProfile', 'message' => $response]));
+                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Account', 'method' => 'getImageProfile', 'message' => $response]));
                 return false;
             }
 
@@ -131,25 +131,25 @@ class Account
                 if ($json->success) {
 
                     if (!isset ($json->data->URL) ) {
-                        ExceptionError::setError(404, json_encode(['type' => 'NotImage', 'class' => 'Api\Account', 'method' => 'getImageProfile', 'message' => 'Whatsapp account not found image']));
+                        ExceptionError::setError(404, json_encode(['type' => 'NotImage', 'class' => 'Api\Wuzapi\Account', 'method' => 'getImageProfile', 'message' => 'Whatsapp account not found image']));
                         return false;
                     }
 
                     return $json->data->URL;
 
                 } else {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Account', 'method' => 'checkPhone', 'message' => $json->error]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Account', 'method' => 'checkPhone', 'message' => $json->error]));
                     return false;
                 }
 
             } else {
-                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Account', 'method' => 'checkPhone', 'message' => $response]));
+                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Account', 'method' => 'checkPhone', 'message' => $response]));
                 return false;
             }
 
 
         } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Account', 'method' => 'getImageProfile', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Account', 'method' => 'getImageProfile', 'message' => $e->getMessage()]));
             return false;
         }
 
@@ -185,7 +185,7 @@ class Account
             curl_close($curl);
 
             if (!ExceptionError::json_validate($response)) {
-                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Account', 'method' => 'detailsAccount', 'message' => $response]));
+                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Account', 'method' => 'detailsAccount', 'message' => $response]));
                 return false;
             }
 
@@ -196,7 +196,7 @@ class Account
                 if ($json->success) {
 
                     if (empty ($json->data->Users)) {
-                        ExceptionError::setError(404, json_encode(['type' => 'notFound', 'class' => 'Api\Account', 'method' => 'detailsAccount', 'message' => 'Whatsapp account not found']));
+                        ExceptionError::setError(404, json_encode(['type' => 'notFound', 'class' => 'Api\Wuzapi\Account', 'method' => 'detailsAccount', 'message' => 'Whatsapp account not found']));
                         return false;
                     }
 
@@ -213,17 +213,17 @@ class Account
                     return true;
 
                 } else {
-                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Account', 'method' => 'detailsAccount', 'message' => $json->error]));
+                    ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Account', 'method' => 'detailsAccount', 'message' => $json->error]));
                     return false;
                 }
 
             } else {
-                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Account', 'method' => 'detailsAccount', 'message' => $response]));
+                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Wuzapi\Account', 'method' => 'detailsAccount', 'message' => $response]));
                 return false;
             }
 
         } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Account', 'method' => 'detailsAccount', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Wuzapi\Account', 'method' => 'detailsAccount', 'message' => $e->getMessage()]));
             return false;
         }
     }
