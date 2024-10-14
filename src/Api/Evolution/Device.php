@@ -21,7 +21,7 @@ class Device
 
    public static bool $apiKeyAuth = false;
 
-   public static function init()
+   public static function autoload()
    {
       $endpoint = Api::getEndpoint();
       if ($endpoint == NULL || $endpoint == "") {
@@ -634,3 +634,5 @@ class Device
    }
 
 }
+
+Device::autoload();
