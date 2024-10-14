@@ -27,8 +27,6 @@ PHP Version: >= 8.2
  composer require luannsr12/apiwpp
 ```
 
-## Cada API tem sua proprias classes:
-
 #### Evolution Version >= 2.1.1
 ```php
  use Apiwpp\Config\Api;
