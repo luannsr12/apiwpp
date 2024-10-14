@@ -4,7 +4,7 @@ Api Evolution: [Evolution2-api](https://doc.evolution-api.com/v2/)
 
 <hr>
 
-SDK version: 2.0.1
+SDK version: 2.0.1 <br />
 PHP Version: >= 8.2
 
 ## Funções disponíveis
