@@ -1,7 +1,11 @@
-## Biblioteca para usar Api Whatsapp Evolution e Wuzapi
+## SDK PHP Evolution 2
 
-Api Wuzapi: [asternic/wuzapi](https://github.com/asternic/wuzapi/blob/main/API.md) <br />
-Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
+Api Evolution: [Evolution2-api](https://doc.evolution-api.com/v2/)
+
+<hr>
+
+SDK version: 2.0.1
+PHP Version: >= 8.2
 
 ## Funções disponíveis
 
@@ -10,10 +14,12 @@ Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
 - Envio de documentos
 - Envio de imagens
 - Envio de texto
-- Checagem do númro do whatsapp
+- Checagem do número do whatsapp
 - Imagem do perfil
 - Detalhes do perfil
-
+- Cria instância
+- Desconecta instância
+- Deleta a instância
 
 ## Instalação composer
 
@@ -23,24 +29,26 @@ Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
 
 ## Cada API tem sua proprias classes:
 
-#### Para Evolution
+#### Evolution Version >= 2.1.1
 ```php
-<?php 
- 
- require_once 'vendor/autoload.php';
+ use Apiwpp\Config\Api;
+ use Apiwpp\Error\ExceptionError;
+ use Apiwpp\Api\Evolution2\Account;
+ use Apiwpp\Api\Evolution2\Device;
+ use Apiwpp\Api\Evolution2\Message;
 
+```
+
+#### Evolution Version anterior a versão 2
+```php
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
  use Apiwpp\Api\Evolution\Account;
  use Apiwpp\Api\Evolution\Device;
  use Apiwpp\Api\Evolution\Message;
-  
- // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
 
 ```
 
-#### Para Wuzapi (obsoleta)
 ```php
 <?php 
  
@@ -48,15 +56,14 @@ Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Wuzapi\Account;
- use Apiwpp\Api\Wuzapi\Device;
- use Apiwpp\Api\Wuzapi\Message;
+ use Apiwpp\Api\Evolution2\Account;
+ use Apiwpp\Api\Evolution2\Device;
+ use Apiwpp\Api\Evolution2\Message;
   
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Wuzapi');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
 
 ```
-
 
 ## Criar instância
 
@@ -67,10 +74,10 @@ Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution2\Device;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
  Api::debug(); // default true - Para não debugar não chame a função, ou passe false como parametro
  
  // Criar instância
@@ -81,7 +88,6 @@ Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
  }else{
     var_dump(ExceptionError::getMessage()); // Json response
  }
-
 
 ```
 
@@ -98,10 +104,10 @@ Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution2\Device;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
  Api::debug(); // default true - Para não debugar não chame a função, ou passe false como parametro
  
  // Setar o token
@@ -133,6 +139,81 @@ Api Evolution: [evolution-api](https://github.com/EvolutionAPI/evolution-api)
 ```
 
 
+## Desconectar instância
+
+```php
+<?php 
+ 
+ require_once 'vendor/autoload.php';
+
+ use Apiwpp\Config\Api;
+ use Apiwpp\Error\ExceptionError;
+ use Apiwpp\Api\Evolution2\Device;
+
+ // Definir configurações da API
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
+ Api::debug(); // default true - Para não debugar não chame a função, ou passe false como parametro
+ 
+ // Setar o token
+ Device::setInstance('NOVO_TOKEN_123', 'NOME_INSTANCIA');
+ $connected = Device::isConnected(); // false or true
+
+ if($connected){
+
+    $logout = Device::logout();
+
+    if($logout){
+        echo 'Desconectado!';
+    }else{
+       echo 'Erro ao desconectar';
+    }
+
+ }else{
+    echo 'Você já está desconectado!';
+ }
+
+
+```
+
+
+
+## Deletar instância
+
+```php
+<?php 
+ 
+ require_once 'vendor/autoload.php';
+
+ use Apiwpp\Config\Api;
+ use Apiwpp\Error\ExceptionError;
+ use Apiwpp\Api\Evolution2\Device;
+
+ // Definir configurações da API
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
+ Api::debug(); // default true - Para não debugar não chame a função, ou passe false como parametro
+ 
+ // Setar o token
+ Device::setInstance('NOVO_TOKEN_123', 'NOME_INSTANCIA');
+ $connected = Device::isConnected(); // false or true
+
+ if(!$connected){
+   
+    $delete = Device::delete();
+
+    if($delete){
+        echo 'Deletado!';
+    }else{
+       echo 'Erro ao deletar';
+    }
+
+ }else{
+    echo 'Faça logout primeiro';
+ }
+
+
+```
+
+
 
 ## Definir um WebHook para o dispositivo
 
@@ -145,15 +226,15 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution2\Device;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
  Api::debug(); // default true - Para não debugar não chame a função, ou passe false como parametro
  
  // Setar o token
  Device::setInstance('NOVO_TOKEN_123', 'NOME_INSTANCIA');
- $setWebhook = Device::setWebhook('http://site.com'); // para Evolution use 'disabled' para desativar o webhook
+ $setWebhook = Device::setWebhook('http://site.com'); // use 'disabled' para desativar o webhook
 
  
  var_dump($setWebhook); // true or false
@@ -171,10 +252,10 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Evolution\Device;
+ use Apiwpp\Api\Evolution2\Device;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
  Api::debug(); // default true - Para não debugar não chame a função, ou passe false como parametro
  
  // Setar o token
@@ -195,11 +276,11 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Evolution\Device;
- use Apiwpp\Api\Evolution\Message;
+ use Apiwpp\Api\Evolution2\Device;
+ use Apiwpp\Api\Evolution2\Message;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
@@ -231,11 +312,11 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Evolution\Device;
- use Apiwpp\Api\Evolution\Message;
+ use Apiwpp\Api\Evolution2\Device;
+ use Apiwpp\Api\Evolution2\Message;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/', 'Evolution2');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
@@ -261,8 +342,6 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
 ## Enviar audio com URL do arquivo.
 
-> É importante informar, que usando Wuzapi apenas áudios no formato .ogg são aceitos.
-> Para Evolution, .mp3 funciona
 
 ```php
 <?php 
@@ -271,11 +350,11 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Evolution\Device;
- use Apiwpp\Api\Evolution\Message;
+ use Apiwpp\Api\Evolution2\Device;
+ use Apiwpp\Api\Evolution2\Message;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
@@ -306,11 +385,11 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Evolution\Device;
- use Apiwpp\Api\Evolution\Message;
+ use Apiwpp\Api\Evolution2\Device;
+ use Apiwpp\Api\Evolution2\Message;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
@@ -346,11 +425,11 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
 
  use Apiwpp\Config\Api;
  use Apiwpp\Error\ExceptionError;
- use Apiwpp\Api\Evolution\Device;
- use Apiwpp\Api\Evolution\Message;
+ use Apiwpp\Api\Evolution2\Device;
+ use Apiwpp\Api\Evolution2\Message;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá enviar a mensagem
@@ -359,7 +438,6 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
  Message::type('document');
  Message::phone('551199999999');
  Message::fileUrl('http://umsitequalquer.com/arquivos/arquivo.pdf');
- Message::caption('Um texto anexado a imagem'); // Opcional
 
  if(Message::send()){
     echo 'Mensagem enviada! <br />';
@@ -382,11 +460,11 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
  require_once 'vendor/autoload.php';
 
  use Apiwpp\Config\Api;
- use Apiwpp\Api\Evolution\Device;
- use Apiwpp\Api\Evolution\Account;
+ use Apiwpp\Api\Evolution2\Device;
+ use Apiwpp\Api\Evolution2\Account;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá ser usado para verificar o número
@@ -418,11 +496,11 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
  require_once 'vendor/autoload.php';
 
  use Apiwpp\Config\Api;
- use Apiwpp\Api\Evolution\Device;
- use Apiwpp\Api\Evolution\Account;
+ use Apiwpp\Api\Evolution2\Device;
+ use Apiwpp\Api\Evolution2\Account;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá ser usado para verificar o número
@@ -452,11 +530,11 @@ Irá receber REQUEST:POST toda vez que receber uma mensagem
  require_once 'vendor/autoload.php';
 
  use Apiwpp\Config\Api;
- use Apiwpp\Api\Evolution\Device;
- use Apiwpp\Api\Evolution\Account;
+ use Apiwpp\Api\Evolution2\Device;
+ use Apiwpp\Api\Evolution2\Account;
 
  // Definir configurações da API
- Api::setConfigs('TOKEN_ADMIN', 'http://127.0.0.1/apiwpp/', 'Evolution');
+ Api::setConfigs('TOKEN_ADMIN', 'http://evo.server/');
  Api::debug(true); // default true - Para não debugar não chame a função, ou passe false como parametro
 
  // Define qual instancia irá ser usado para verificar o número

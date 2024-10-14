@@ -1,6 +1,6 @@
 <?php
 
-namespace Apiwpp\Api\Evolution;
+namespace Apiwpp\Api\Evolution2;
 
 use Apiwpp\Config\Api;
 use Apiwpp\Error\ExceptionError;
@@ -21,11 +21,14 @@ class Device
 
    public static bool $apiKeyAuth = false;
 
-   public static function init()
+   public static $init;
+
+   public static function autoload()
    {
       $endpoint = Api::getEndpoint();
+
       if ($endpoint == NULL || $endpoint == "") {
-         ExceptionError::setError(404, json_encode(['type' => 'Credentials', 'class' => 'Api\Evolution\Device', 'method' => 'init', 'message' => 'API endpoint not defined']));
+         ExceptionError::setError(404, json_encode(['type' => 'Credentials', 'class' => 'Api\Evolution2\Device', 'method' => 'init', 'message' => 'API endpoint not defined']));
       } else {
          self::$endpoint = $endpoint;
       }
@@ -33,7 +36,7 @@ class Device
       $apikey = Api::getApikey();
 
       if ($apikey == NULL || $apikey == "") {
-         ExceptionError::setError(404, json_encode(['type' => 'Credentials', 'class' => 'Api\Evolution\Device', 'method' => 'init', 'message' => 'ApiKey not defined']));
+         ExceptionError::setError(404, json_encode(['type' => 'Credentials', 'class' => 'Api\Evolution2\Device', 'method' => 'init', 'message' => 'ApiKey not defined']));
       } else {
          self::$apikey = $apikey;
       }
@@ -71,7 +74,7 @@ class Device
 
          if ($token == NULL) {
             $message = $isApikey ? "Invalid apikey" : "Invalid instance";
-            ExceptionError::setError(403, json_encode(['type' => 'Credentials', 'class' => 'Api\Evolution\Device', 'method' => 'auth', 'message' => $message]));
+            ExceptionError::setError(403, json_encode(['type' => 'Credentials', 'class' => 'Api\Evolution2\Device', 'method' => 'auth', 'message' => $message]));
          }
 
          if (ExceptionError::$error) {
@@ -129,7 +132,7 @@ class Device
             }
 
             if ($httpCode != 200) {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'auth', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'auth', 'message' => $response]));
                return false;
             }
 
@@ -142,12 +145,12 @@ class Device
             return true;
 
          } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'auth', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'auth', 'message' => $e->getMessage()]));
             return false;
          }
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'auth', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'auth', 'message' => $e->getMessage()]));
          return false;
       }
 
@@ -164,12 +167,13 @@ class Device
 
       try {
          if ($name_device == '' || $name_device == NULL) {
-            ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'create', 'message' => 'Token device and Name device is required']));
+            ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'create', 'message' => 'Token device and Name device is required']));
          }
 
          if (ExceptionError::$error) {
             return false;
          }
+
 
          $curl = curl_init();
 
@@ -205,37 +209,26 @@ class Device
          try {
 
             if ($httpCode != 200 && $httpCode != 201) {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'create', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'create', 'message' => $response]));
                return false;
             }
 
             if (!json_decode($response)) {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'create', 'message' => $response]));
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'create', 'message' => $response]));
                return false;
             }
 
-            $json = json_decode($response);
+              $json = json_decode($response);
 
-            if (isset($json->instance)) {
-               if ($json->instance->status == 'created') {
-                  return true;
-               } else {
-                  ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'create', 'message' => 'Device not created']));
-                  return false;
-               }
-
-            } else {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'create', 'message' => 'Device not created']));
-               return $json;
-            }
+              return $json;
 
          } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'create', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'create', 'message' => $e->getMessage()]));
             return false;
          }
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'create', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'create', 'message' => $e->getMessage()]));
          return false;
       }
 
@@ -276,16 +269,16 @@ class Device
             if (ExceptionError::json_validate($response)) {
                return json_decode($response);
             } else {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'getWebhook', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'getWebhook', 'message' => $response]));
                return NULL;
             }
          } else {
-            ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'getWebhook', 'message' => $response]));
+            ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'getWebhook', 'message' => $response]));
             return NULL;
          }
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'getWebhook', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'getWebhook', 'message' => $e->getMessage()]));
          return NULL;
       }
    }
@@ -299,16 +292,36 @@ class Device
          }
 
          if (filter_var($webhook, FILTER_VALIDATE_URL) === FALSE && $webhook != "disabled") {
-            ExceptionError::setError(500, json_encode(['type' => 'Url invalid', 'class' => 'Api\Evolution\Device', 'method' => 'create', 'message' => $webhook . ' not valid url']));
+            ExceptionError::setError(500, json_encode(['type' => 'Url invalid', 'class' => 'Api\Evolution2\Device', 'method' => 'create', 'message' => $webhook . ' not valid url']));
             return false;
          }
 
          $disabled_webhook = '';
 
-         if ($webhook == "disabled") {
+         if ($webhook != "" && $webhook != "disabled") {
+            $disabled_webhook = '"enabled": true,';
+         }else if($webhook == "disabled"){
             $disabled_webhook = '"enabled": false,';
          }
 
+         $json = '{
+            "webhook": {
+                "url": "' . $webhook . '",
+                "byEvents": true,
+                "base64": true,
+                ' . $disabled_webhook . '
+                "events": [
+                     "QRCODE_UPDATED",
+                     "MESSAGES_UPSERT",
+                     "MESSAGES_UPDATE",
+                     "MESSAGES_DELETE",
+                     "SEND_MESSAGE",
+                     "CONNECTION_UPDATE",
+                     "CALL"
+                ]
+            }
+        }';
+        
 
          $curl = curl_init();
 
@@ -321,21 +334,7 @@ class Device
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
             CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{
-            "url": "' . $webhook . '",
-             "webhook_by_events": false,
-             "webhook_base64": false,
-             ' . $disabled_webhook . '
-             "events": [
-                 "QRCODE_UPDATED",
-                 "MESSAGES_UPSERT",
-                 "MESSAGES_UPDATE",
-                 "MESSAGES_DELETE",
-                 "SEND_MESSAGE",
-                 "CONNECTION_UPDATE",
-                 "CALL"
-             ]    
-         }',
+            CURLOPT_POSTFIELDS => $json,
             CURLOPT_HTTPHEADER => array(
                'Content-Type: application/json',
                'apikey: ' . trim(self::$instance)
@@ -350,12 +349,12 @@ class Device
          if ($httpCode == 200 || $httpCode == 201) {
             return true;
          } else {
-            ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'setWebhook', 'message' => $response]));
+            ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'setWebhook', 'message' => $response]));
             return false;
          }
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'setWebhook', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'setWebhook', 'message' => $e->getMessage()]));
          return false;
       }
 
@@ -406,21 +405,21 @@ class Device
                   return true;
 
                } else {
-                  ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'loadQr', 'message' => $response]));
+                  ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'loadQr', 'message' => $response]));
                   return NULL;
                }
             } else {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'loadQr', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'loadQr', 'message' => $response]));
                return NULL;
             }
 
          } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'loadQr', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'loadQr', 'message' => $e->getMessage()]));
             return NULL;
          }
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'loadQr', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'loadQr', 'message' => $e->getMessage()]));
          return NULL;
       }
 
@@ -463,7 +462,7 @@ class Device
       try {
 
          if (!json_decode($response)) {
-            ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'isConnected', 'message' => $response]));
+            ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'isConnected', 'message' => $response]));
             return false;
          }
 
@@ -483,10 +482,77 @@ class Device
          return false;
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'isConnected', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'isConnected', 'message' => $e->getMessage()]));
          return false;
       }
 
+   }
+
+   public static function delete()
+   {
+
+      try {
+
+         if (ExceptionError::$error) {
+            return NULL;
+         }
+
+
+         $curl = curl_init();
+
+         curl_setopt_array($curl, array(
+            CURLOPT_URL => rtrim(self::$endpoint, '/') . '/instance/delete/' . trim(self::$name_instance),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_HTTPHEADER => array(
+               'apikey: ' . trim(self::$instance)
+            ),
+         )
+         );
+
+         $response = curl_exec($curl);
+         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+         curl_close($curl);
+
+         try {
+
+            if ($httpCode != 200) {
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'delete', 'message' => $response]));
+               return NULL;
+            }
+
+            if (!json_decode($response)) {
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'delete', 'message' => $response]));
+               return NULL;
+            }
+
+            $json = json_decode($response);
+
+            if (isset($json->status)) {
+               if ($json->status == 'SUCCESS') {
+                  return true;
+               } else {
+                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'delete', 'message' => $json->error]));
+                  return false;
+               }
+            } else {
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'delete', 'message' => $response]));
+            }
+
+         } catch (\Exception $e) {
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'delete', 'message' => $e->getMessage()]));
+            return false;
+         }
+
+      } catch (\Exception $e) {
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'delete', 'message' => $e->getMessage()]));
+         return false;
+      }
    }
 
    public static function logout()
@@ -523,12 +589,12 @@ class Device
          try {
 
             if ($httpCode != 200) {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'logout', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'logout', 'message' => $response]));
                return NULL;
             }
 
             if (!json_decode($response)) {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'logout', 'message' => $response]));
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'logout', 'message' => $response]));
                return NULL;
             }
 
@@ -539,20 +605,20 @@ class Device
                if ($json->status == 'SUCCESS') {
                   return true;
                } else {
-                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'logout', 'message' => $json->error]));
+                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'logout', 'message' => $json->error]));
                   return false;
                }
             } else {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'logout', 'message' => $response]));
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'logout', 'message' => $response]));
             }
 
          } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'logout', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'logout', 'message' => $e->getMessage()]));
             return false;
          }
 
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'logout', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'logout', 'message' => $e->getMessage()]));
          return false;
       }
    }
@@ -592,12 +658,12 @@ class Device
          try {
 
             if ($httpCode != 200) {
-               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'list', 'message' => $response]));
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'list', 'message' => $response]));
                return NULL;
             }
 
             if (!json_decode($response)) {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'list', 'message' => $response]));
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'list', 'message' => $response]));
                return NULL;
             }
 
@@ -609,28 +675,30 @@ class Device
                   if (isset($json->data)) {
                      return $json->data;
                   } else {
-                     ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'list', 'message' => 'Not devices']));
+                     ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'list', 'message' => 'Not devices']));
                      return $json;
                   }
 
                } else {
-                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'list', 'message' => $json->error]));
+                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'list', 'message' => $json->error]));
                   return $json;
                }
             } else {
-               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'list', 'message' => 'Device not created']));
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'list', 'message' => 'Device not created']));
                return $json;
             }
 
          } catch (\Exception $e) {
-            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'list', 'message' => $e->getMessage()]));
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'list', 'message' => $e->getMessage()]));
             return NULL;
          }
       } catch (\Exception $e) {
-         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'list', 'message' => $e->getMessage()]));
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution2\Device', 'method' => 'list', 'message' => $e->getMessage()]));
          return NULL;
       }
 
    }
 
 }
+
+ Device::autoload();

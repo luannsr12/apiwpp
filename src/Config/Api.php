@@ -2,9 +2,6 @@
 
 namespace Apiwpp\Config;
 
-use Apiwpp\Api\Wuzapi\Device as Wuzapi;
-use Apiwpp\Api\Evolution\Device as Evolution;
-
 class Api
 {
 
@@ -34,29 +31,11 @@ class Api
         return self::$api_key;
     }
 
-    public static function runType(string $type)
-    {
-        switch ($type) {
-
-            case 'Wuzapi':
-                Wuzapi::init();
-                break;
-
-            case 'Evolution':
-                Evolution::init();
-                break;
-
-            default:
-                Wuzapi::init();
-                break;
-        }
-    }
-
-    public static function setConfigs(string $apikey, string $endpoint, string $type_api = 'Wuzapi')
+    public static function setConfigs(string $apikey, string $endpoint, string $type_api = 'Evolution')
     {
         self::setApikey($apikey);
         self::setEndpoint($endpoint);
-        self::runType($type_api);
+       
     }
 
     public static function debug(bool $isDebug = true)
