@@ -565,7 +565,7 @@ class Device
       }
    }
 
-   public function exist(){
+   public static function exist(){
       try {
 
          if (ExceptionError::$error) {
