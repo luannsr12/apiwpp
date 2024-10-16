@@ -521,6 +521,10 @@ class Device
 
          try {
 
+            if($httpCode == 404){
+               return true;
+            }
+
             if ($httpCode != 200) {
                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution2\Device', 'method' => 'delete', 'message' => $response]));
                return NULL;
@@ -532,6 +536,12 @@ class Device
             }
 
             $json = json_decode($response);
+
+            if(isset($json->status)){
+               if($json->status == 404){
+                  return true;
+               }
+            }
 
             if (isset($json->status)) {
                if ($json->status == 'SUCCESS') {
