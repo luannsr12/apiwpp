@@ -557,6 +557,74 @@ class Device
       }
    }
 
+   public static function delete()
+   {
+
+      try {
+
+         if (ExceptionError::$error) {
+            return NULL;
+         }
+
+
+         $curl = curl_init();
+
+         curl_setopt_array($curl, array(
+            CURLOPT_URL => rtrim(self::$endpoint, '/') . '/instance/delete/' . trim(self::$name_instance),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_HTTPHEADER => array(
+               'apikey: ' . trim(self::$instance)
+            ),
+         )
+         );
+
+         $response = curl_exec($curl);
+         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+         curl_close($curl);
+
+         try {
+
+            if ($httpCode != 200) {
+               ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'delete', 'message' => $response]));
+               return NULL;
+            }
+
+            if (!json_decode($response)) {
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'delete', 'message' => $response]));
+               return NULL;
+            }
+
+            $json = json_decode($response);
+
+            if (isset($json->status)) {
+               if ($json->status == 'SUCCESS') {
+                  return true;
+               } else {
+                  ExceptionError::setError($json->code, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'delete', 'message' => $json->error]));
+                  return false;
+               }
+            } else {
+               ExceptionError::setError(500, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'delete', 'message' => $response]));
+            }
+
+         } catch (\Exception $e) {
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'delete', 'message' => $e->getMessage()]));
+            return false;
+         }
+
+      } catch (\Exception $e) {
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'delete', 'message' => $e->getMessage()]));
+         return false;
+      }
+   }
+
+
    public static function list()
    {
       try {

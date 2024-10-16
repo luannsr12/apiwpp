@@ -1,10 +1,10 @@
-## SDK PHP Evolution 2
+## SDK PHP Evolution Api Whatsapp
 
 Api Evolution: [Evolution-api](https://doc.evolution-api.com/v2/)
 
 <hr>
 
-SDK version: 2.0.2 <br />
+SDK version: 2.0.3 <br />
 PHP Version: >= 8.2
 
 ## Funções disponíveis
