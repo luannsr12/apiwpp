@@ -489,6 +489,53 @@ class Device
 
    }
 
+   public function exist(){
+      try {
+
+         if (ExceptionError::$error) {
+            return NULL;
+         }
+
+         $curl = curl_init();
+
+         curl_setopt_array($curl, array(
+            CURLOPT_URL => rtrim(self::$endpoint, '/') . '/instance/connectionState/' . trim(self::$name_instance),
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'DELETE',
+            CURLOPT_HTTPHEADER => array(
+               'apikey: ' . trim(self::$instance)
+            ),
+         )
+         );
+
+         $response = curl_exec($curl);
+         $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+         curl_close($curl);
+
+         try {
+
+            if($httpCode == 404){
+               return false;
+            }
+
+            return true;
+
+         } catch (\Exception $e) {
+            ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'exist', 'message' => $e->getMessage()]));
+            return false;
+         }
+
+      } catch (\Exception $e) {
+         ExceptionError::setError(500, json_encode(['type' => 'Exception', 'class' => 'Api\Evolution\Device', 'method' => 'exist', 'message' => $e->getMessage()]));
+         return false;
+      }
+   }
+
    public static function logout()
    {
 
