@@ -522,6 +522,10 @@ class Device
 
          try {
 
+            if($httpCode == 400){
+               return true;
+            }
+
             if ($httpCode != 200) {
                ExceptionError::setError($httpCode, json_encode(['type' => 'Api response', 'class' => 'Api\Evolution\Device', 'method' => 'logout', 'message' => $response]));
                return NULL;
